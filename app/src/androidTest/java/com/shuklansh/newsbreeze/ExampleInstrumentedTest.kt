@@ -1,4 +1,4 @@
-package com.shuklansh.templateapp
+package com.shuklansh.newsbreeze
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.shuklansh.templateapp", appContext.packageName)
+        assertEquals("com.shuklansh.newsbreeze", appContext.packageName)
     }
 }

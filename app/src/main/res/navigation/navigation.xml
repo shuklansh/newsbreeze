@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/dashboardScreen">
+
+    <fragment
+        android:id="@+id/dashboardScreen"
+        android:name="com.shuklansh.newsbreeze.presentation.screens.DashboardScreen"
+        android:label="fragment_dashboard_screen"
+        tools:layout="@layout/fragment_dashboard_screen" >
+        <action
+            android:id="@+id/action_dashboardScreen_to_savedScreen"
+            app:destination="@id/savedScreen" />
+        <action
+            android:id="@+id/action_dashboardScreen_to_detailedScreen"
+            app:destination="@id/detailedScreen" />
+    </fragment>
+    <fragment
+        android:id="@+id/savedScreen"
+        android:name="com.shuklansh.newsbreeze.presentation.screens.SavedScreen"
+        android:label="fragment_saved_screen"
+        tools:layout="@layout/fragment_saved_screen" >
+        <action
+            android:id="@+id/action_savedScreen_to_dashboardScreen"
+            app:destination="@id/dashboardScreen" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailedScreen"
+        android:name="com.shuklansh.newsbreeze.presentation.screens.DetailedScreen"
+        android:label="fragment_detailed_screen"
+        tools:layout="@layout/fragment_detailed_screen" >
+        <action
+            android:id="@+id/action_detailedScreen_to_dashboardScreen"
+            app:destination="@id/dashboardScreen" />
+    </fragment>
+</navigation>

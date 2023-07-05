@@ -1,4 +1,4 @@
-package com.shuklansh.templateapp.ui.theme
+package com.shuklansh.newsbreeze.ui.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle

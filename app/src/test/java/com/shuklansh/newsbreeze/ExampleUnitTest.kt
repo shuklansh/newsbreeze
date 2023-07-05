@@ -1,4 +1,4 @@
-package com.shuklansh.templateapp
+package com.shuklansh.newsbreeze
 
 import org.junit.Test
 

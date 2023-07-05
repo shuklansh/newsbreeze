@@ -1,4 +1,4 @@
-package com.shuklansh.templateapp.ui.theme
+package com.shuklansh.newsbreeze.ui.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Shapes

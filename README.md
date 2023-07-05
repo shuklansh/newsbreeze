@@ -5,7 +5,7 @@ News reader application with bookmark and search features, made using:
 * Jetpack compose
 * MVVM clean architecture
 * Kotlin coroutines and Flow 
-* Retrofitv
+* Retrofit
 * News API 
 * Room persistence library
 * Unit testing with AndroidJUnit4

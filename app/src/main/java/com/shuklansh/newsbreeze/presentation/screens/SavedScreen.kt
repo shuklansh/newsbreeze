@@ -102,15 +102,15 @@ class SavedScreen : Fragment() {
                                                                 val bundle = Bundle()
                                                                 bundle.putString(
                                                                     "image",
-                                                                    it.article.urlToImage
+                                                                    it.article.urlToImage.toString()
                                                                 )
                                                                 bundle.putString(
                                                                     "title",
-                                                                    it.article.title
+                                                                    it.article.title.toString()
                                                                 )
                                                                 bundle.putString(
                                                                     "content",
-                                                                    it.article.content
+                                                                    it.article.content.toString()
                                                                 )
                                                                 bundle.putBoolean(
                                                                     "savedBool",
@@ -118,19 +118,19 @@ class SavedScreen : Fragment() {
                                                                 )
                                                                 bundle.putString(
                                                                     "publishedAt",
-                                                                    it.article.publishedAt
+                                                                    it.article.publishedAt.toString()
                                                                 )
                                                                 bundle.putString(
                                                                     "author",
-                                                                    it.article.author
+                                                                    it.article.author.toString()
                                                                 )
                                                                 bundle.putString(
                                                                     "url",
-                                                                    it.article.url
+                                                                    it.article.url.toString()
                                                                 )
                                                                 bundle.putString(
                                                                     "description",
-                                                                    it.article.description
+                                                                    it.article.description.toString()
                                                                 )
                                                                 findNavController().navigate(R.id.action_savedScreen_to_detailedScreen,bundle)
                                                             }

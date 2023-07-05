@@ -55,9 +55,9 @@ class DetailedScreen : Fragment() {
     private var savedBool: Boolean = false
     private var publishedAt: String = ""
     private var image: String = ""
-    private var author : String = ""
-    private var description : String = ""
-    private var url : String = ""
+    private var author: String = ""
+    private var description: String = ""
+    private var url: String = ""
 
     var isarticleinDB = false
 
@@ -158,8 +158,8 @@ class DetailedScreen : Fragment() {
 
                                     if (bookmarked) {
                                         IconButton(onClick = {
-                                            scope.launch{
-                                                vm.removeFromDb(article =articFromPrevScreen )
+                                            scope.launch {
+                                                vm.removeFromDb(article = articFromPrevScreen)
                                                 vm.getAllArticlesFromDb()
                                                 isarticleinDB = false
                                                 bookmarked = isarticleinDB
@@ -174,8 +174,8 @@ class DetailedScreen : Fragment() {
                                         }
                                     } else {
                                         IconButton(onClick = {
-                                            scope.launch{
-                                                vm.addtheArticleToDb(article = articFromPrevScreen )
+                                            scope.launch {
+                                                vm.addtheArticleToDb(article = articFromPrevScreen)
                                                 vm.getAllArticlesFromDb()
                                                 isarticleinDB = true
                                                 bookmarked = isarticleinDB
@@ -203,13 +203,14 @@ class DetailedScreen : Fragment() {
 //                                        )
 //                                    }
                                 }
-                                Box(modifier = Modifier
-                                    .fillMaxWidth()
-                                    .fillMaxHeight()
-                                ,
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .fillMaxHeight(),
                                     contentAlignment = Alignment.BottomCenter
-                                ){
-                                    Column(Modifier.fillMaxWidth(),
+                                ) {
+                                    Column(
+                                        Modifier.fillMaxWidth(),
                                         horizontalAlignment = Alignment.CenterHorizontally,
                                         verticalArrangement = Arrangement.Bottom
                                     ) {
@@ -225,8 +226,7 @@ class DetailedScreen : Fragment() {
                                                         topEnd = 24.dp
                                                     )
                                                 )
-                                                .background(myAppBg)
-                                            ,
+                                                .background(myAppBg),
                                             horizontalAlignment = Alignment.Start,
                                             verticalArrangement = Arrangement.Top
 
@@ -236,16 +236,49 @@ class DetailedScreen : Fragment() {
                                                     .padding(16.dp)
                                                     .verticalScroll(
                                                         rememberScrollState()
-                                                    ) ,horizontalAlignment = Alignment.CenterHorizontally,
-                                                verticalArrangement = Arrangement.Top) {
+                                                    ),
+                                                horizontalAlignment = Alignment.CenterHorizontally,
+                                                verticalArrangement = Arrangement.Top
+                                            ) {
                                                 Spacer(modifier = Modifier.height(12.dp))
-                                                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Start) {
-                                                    Text(textAlign = TextAlign.Start,text =  publishedAt , color = myGray, fontSize = 16.sp, fontWeight = FontWeight.W300 )
+                                                Row(
+                                                    Modifier.fillMaxWidth(),
+                                                    horizontalArrangement = Arrangement.Start
+                                                ) {
+                                                    Text(
+                                                        textAlign = TextAlign.Start,
+                                                        text = publishedAt,
+                                                        color = myGray,
+                                                        fontSize = 16.sp,
+                                                        fontWeight = FontWeight.W300
+                                                    )
                                                 }
                                                 Spacer(modifier = Modifier.height(12.dp))
-                                                Text(title , color = Color.Black, fontSize = 26.sp, fontWeight = FontWeight.W600 )
+                                                Text(
+                                                    title,
+                                                    color = Color.Black,
+                                                    fontSize = 26.sp,
+                                                    fontWeight = FontWeight.W600
+                                                )
                                                 Spacer(modifier = Modifier.height(12.dp))
-                                                Text(content.replace(content.slice(IntRange(content.indexOf("["),content.indexOf("]"))), "") , color = Color.Black, fontSize = 20.sp, fontWeight = FontWeight.W300 )
+                                                Text(
+                                                    if (content == "null") {
+                                                        "no content"
+                                                    } else {
+                                                        content.replace(
+                                                            content.slice(
+                                                                IntRange(
+                                                                    content.indexOf(
+                                                                        "["
+                                                                    ), content.indexOf("]")
+                                                                )
+                                                            ), ""
+                                                        )
+                                                    },
+                                                    color = Color.Black,
+                                                    fontSize = 20.sp,
+                                                    fontWeight = FontWeight.W300
+                                                )
                                             }
                                         }
 
@@ -254,8 +287,6 @@ class DetailedScreen : Fragment() {
 
 
                             }
-
-
 
 
                         }

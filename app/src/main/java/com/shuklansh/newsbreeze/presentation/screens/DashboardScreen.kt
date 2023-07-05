@@ -279,7 +279,7 @@ class DashboardScreen : Fragment() {
                                                                 )
                                                                 bundle.putString(
                                                                     "content",
-                                                                    it.content
+                                                                    it.content.toString()
                                                                 )
                                                                 bundle.putBoolean(
                                                                     "savedBool",

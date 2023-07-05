@@ -13,9 +13,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -182,12 +185,15 @@ fun topAppBar(dash: Boolean, saved : Boolean, nav: NavController) {
 }
 
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun searchBar(queryEntered: String, vm: NewsViewModel) {
     var query = queryEntered
     var akatab = FontFamily(
         Font(R.font.akatabregular)
     )
+    var focuManager = LocalFocusManager.current
+    var keybo = LocalSoftwareKeyboardController.current
     TextField(value = query,
         onValueChange = {
             query = it
@@ -216,10 +222,18 @@ fun searchBar(queryEntered: String, vm: NewsViewModel) {
             unfocusedLabelColor = Color.Transparent,
         ),
         keyboardActions = KeyboardActions(
-            onDone = { vm.getNewsForQuery(query) },
-            onGo = { vm.getNewsForQuery(query) },
-            onSend = { vm.getNewsForQuery(query) },
-            onSearch = { vm.getNewsForQuery(query) },
+            onDone = { vm.getNewsForQuery(query)
+                focuManager.clearFocus()
+                keybo?.hide()},
+            onGo = { vm.getNewsForQuery(query)
+                focuManager.clearFocus()
+                keybo?.hide()},
+            onSend = { vm.getNewsForQuery(query)
+                focuManager.clearFocus()
+                keybo?.hide()},
+            onSearch = { vm.getNewsForQuery(query)
+                focuManager.clearFocus()
+                keybo?.hide()},
         ),
         placeholder = {
             Text(
@@ -231,7 +245,10 @@ fun searchBar(queryEntered: String, vm: NewsViewModel) {
         },
         leadingIcon = {
             IconButton(onClick = {
-                vm.getNewsForQuery(query)
+//                vm.getNewsForQuery(query)
+                vm.getNews(query)
+                focuManager.clearFocus()
+                keybo?.hide()
             }) {
                 Icon(
                     tint = myGray,

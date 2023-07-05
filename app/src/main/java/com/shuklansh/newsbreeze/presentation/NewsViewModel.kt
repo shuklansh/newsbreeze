@@ -90,12 +90,12 @@ class NewsViewModel @Inject constructor(
         return db.dao.isarticleintheDB(article = article)
     }
 
-    fun getNewsForQuery(word : String){
-//        updateTranslationQuery(word)
+    fun getNewsForQuery(query : String){
+//        updateTranslationQuery(query)
         searchJob?.cancel()
         searchJob = viewModelScope.launch {
             delay(500L)
-            getNewsUseCase(word).onEach { result ->
+            getNewsUseCase(query).onEach { result ->
                 when (result) {
                     is Resource.Error -> {
                         _newsList.value = _newsList.value.copy(
@@ -126,11 +126,11 @@ class NewsViewModel @Inject constructor(
         }
     }
 
-    fun getNews(query : String){
+    fun getNews(word : String){
         searchJob?.cancel()
         searchJob = viewModelScope.launch {
             delay(500L)
-            GetNewsForQueryRepository(query).onEach { result ->
+            GetNewsForQueryRepository(word).onEach { result ->
                 when (result) {
                     is Resource.Error -> {
                         _newsList.value = _newsList.value.copy(

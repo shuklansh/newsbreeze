@@ -89,7 +89,7 @@ class DashboardScreen : Fragment() {
                         modifier = Modifier
                             .fillMaxSize(),
                         topBar = {
-                            topAppBar(nav)
+                            topAppBar(dash = true ,nav)
                         }
 
 
@@ -269,7 +269,7 @@ class DashboardScreen : Fragment() {
                                                                 .padding(start = 12.dp, end = 12.dp)
                                                                 .weight(1f),
                                                             shape = RoundedCornerShape(8.dp),
-                                                            onClick = { },
+                                                            onClick = { findNavController().navigate(R.id.action_dashboardScreen_to_detailedScreen) },
                                                             colors = ButtonDefaults.buttonColors(
                                                                 backgroundColor = myGreen
                                                             )

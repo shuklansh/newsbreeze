@@ -4,6 +4,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowBackIos
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Tune
 import androidx.compose.runtime.Composable
@@ -74,7 +76,7 @@ fun bookmarkIcon(bookmark: Boolean) {
 }
 
 @Composable
-fun topAppBar(nav: NavController) {
+fun topAppBar(dash: Boolean, nav: NavController) {
     var clers = FontFamily(
         Font(R.font.clers, FontWeight.Bold)
     )
@@ -85,30 +87,57 @@ fun topAppBar(nav: NavController) {
                 .fillMaxHeight(0.16f),
             elevation = 0.dp,
             title = {
-                Text(
-                    text = "NewsBreeze",
-                    fontFamily = clers,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 40.sp
-                )
+                if (dash) {
+                    Text(
+                        text = "NewsBreeze",
+                        fontFamily = clers,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 40.sp
+                    )
+                } else {
+                    IconButton(onClick = {
+                        nav.popBackStack(
+                            destinationId = R.id.dashboardScreen,
+                            inclusive = false
+                        )
+                    }) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowBackIos,
+                            tint = myAppBg,
+                            contentDescription = ""
+                        )
+                    }
+                }
             },
             actions = {
 
                 Box(
-                    modifier = Modifier.padding(horizontal = 12.dp)
+                    modifier = Modifier
+                        .padding(horizontal = 12.dp)
                         .width(52.dp)
                         .height(52.dp)
                         .clip(
                             RoundedCornerShape(8.dp)
                         )
-                        .background(myGreen)
+                        .background(
+                            if (dash) {
+                                myGreen
+                            } else {
+                                Color.Transparent
+                            }
+                        )
                 ) {
                     Column(
                         Modifier.fillMaxSize(),
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.Center
                     ) {
-                        IconButton(onClick = { nav.navigate(R.id.action_dashboardScreen_to_savedScreen) }) {
+                        IconButton(onClick = {
+                            if (dash) {
+                                nav.navigate(R.id.action_dashboardScreen_to_savedScreen)
+                            }
+                        }
+                        ) {
                             Icon(
                                 modifier = Modifier.size(28.dp),
                                 tint = myAppBg,
@@ -126,7 +155,7 @@ fun topAppBar(nav: NavController) {
 
 
 @Composable
-fun searchBar(queryEntered: String, vm : NewsViewModel) {
+fun searchBar(queryEntered: String, vm: NewsViewModel) {
     var query = queryEntered
     var akatab = FontFamily(
         Font(R.font.akatabregular)
@@ -159,10 +188,10 @@ fun searchBar(queryEntered: String, vm : NewsViewModel) {
             unfocusedLabelColor = Color.Transparent,
         ),
         keyboardActions = KeyboardActions(
-            onDone = {vm.getNews(query)},
-            onGo = {vm.getNews(query)},
-            onSend = {vm.getNews(query)},
-            onSearch = {vm.getNews(query)},
+            onDone = { vm.getNews(query) },
+            onGo = { vm.getNews(query) },
+            onSend = { vm.getNews(query) },
+            onSearch = { vm.getNews(query) },
         ),
         placeholder = {
             Text(

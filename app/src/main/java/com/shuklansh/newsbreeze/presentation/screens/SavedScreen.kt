@@ -98,7 +98,42 @@ class SavedScreen : Fragment() {
                                                         Row(
                                                             Modifier.padding(12.dp).clip(
                                                                 RoundedCornerShape(12.dp)
-                                                            )
+                                                            ).clickable {
+                                                                val bundle = Bundle()
+                                                                bundle.putString(
+                                                                    "image",
+                                                                    it.article.urlToImage
+                                                                )
+                                                                bundle.putString(
+                                                                    "title",
+                                                                    it.article.title
+                                                                )
+                                                                bundle.putString(
+                                                                    "content",
+                                                                    it.article.content
+                                                                )
+                                                                bundle.putBoolean(
+                                                                    "savedBool",
+                                                                    true
+                                                                )
+                                                                bundle.putString(
+                                                                    "publishedAt",
+                                                                    it.article.publishedAt
+                                                                )
+                                                                bundle.putString(
+                                                                    "author",
+                                                                    it.article.author
+                                                                )
+                                                                bundle.putString(
+                                                                    "url",
+                                                                    it.article.url
+                                                                )
+                                                                bundle.putString(
+                                                                    "description",
+                                                                    it.article.description
+                                                                )
+                                                                findNavController().navigate(R.id.action_savedScreen_to_detailedScreen,bundle)
+                                                            }
                                                         ) {
 
                                                             AsyncImage(

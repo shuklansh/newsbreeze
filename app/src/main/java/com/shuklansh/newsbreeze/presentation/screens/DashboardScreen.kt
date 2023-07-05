@@ -67,8 +67,6 @@ class DashboardScreen : Fragment() {
                 var scaffoldState = rememberScaffoldState()
                 val scope = rememberCoroutineScope()
 
-
-
                 LaunchedEffect(key1 = true) {
 
                     vm.getNews("general")
@@ -269,7 +267,42 @@ class DashboardScreen : Fragment() {
                                                                 .padding(start = 12.dp, end = 12.dp)
                                                                 .weight(1f),
                                                             shape = RoundedCornerShape(8.dp),
-                                                            onClick = { findNavController().navigate(R.id.action_dashboardScreen_to_detailedScreen) },
+                                                            onClick = {
+                                                                val bundle = Bundle()
+                                                                bundle.putString(
+                                                                    "image",
+                                                                    it.urlToImage
+                                                                )
+                                                                bundle.putString(
+                                                                    "title",
+                                                                    it.title
+                                                                )
+                                                                bundle.putString(
+                                                                    "content",
+                                                                    it.content
+                                                                )
+                                                                bundle.putBoolean(
+                                                                    "savedBool",
+                                                                    bookmarked ?: false
+                                                                )
+                                                                bundle.putString(
+                                                                    "publishedAt",
+                                                                    it.publishedAt
+                                                                )
+                                                                bundle.putString(
+                                                                    "author",
+                                                                    it.author
+                                                                )
+                                                                bundle.putString(
+                                                                    "url",
+                                                                    it.url
+                                                                )
+                                                                bundle.putString(
+                                                                    "description",
+                                                                    it.description
+                                                                )
+                                                                findNavController().navigate(R.id.action_dashboardScreen_to_detailedScreen,bundle)
+                                                          },
                                                             colors = ButtonDefaults.buttonColors(
                                                                 backgroundColor = myGreen
                                                             )
@@ -287,7 +320,14 @@ class DashboardScreen : Fragment() {
                                                                 .padding(start = 12.dp, end = 12.dp)
                                                                 .weight(1f),
                                                             shape = RoundedCornerShape(8.dp),
-                                                            onClick = { },
+                                                            onClick = {
+                                                                scope.launch{
+                                                                    vm.addtheArticleToDb(article = it )
+                                                                    vm.getAllArticlesFromDb()
+                                                                    isarticleinDB = vm.isarticleindb(it)
+                                                                    bookmarked = isarticleinDB
+                                                                }
+                                                                      },
                                                             colors = ButtonDefaults.buttonColors(
                                                                 backgroundColor = myGreen
                                                             )

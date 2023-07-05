@@ -79,7 +79,7 @@ fun bookmarkIcon(bookmark: Boolean) {
 }
 
 @Composable
-fun topAppBar(dash: Boolean, saved : Boolean, nav: NavController) {
+fun topAppBar(dash: Boolean,detailed :Boolean, saved : Boolean, nav: NavController) {
     var clers = FontFamily(
         Font(R.font.clers, FontWeight.Bold)
     )
@@ -90,14 +90,14 @@ fun topAppBar(dash: Boolean, saved : Boolean, nav: NavController) {
                 .fillMaxHeight(0.16f),
             elevation = 0.dp,
             title = {
-                if (dash) {
+                if (dash && !saved) {
                     Text(
                         text = "NewsBreeze",
                         fontFamily = clers,
                         fontWeight = FontWeight.Bold,
                         fontSize = 40.sp
                     )
-                } else if(saved){
+                } else if(saved && !dash ){
                     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceAround, verticalAlignment = Alignment.CenterVertically){
                         IconButton(onClick = {
                             nav.popBackStack(
@@ -158,16 +158,17 @@ fun topAppBar(dash: Boolean, saved : Boolean, nav: NavController) {
                             }
                         )
                 ) {
+                    if (dash && !saved ){
                     Column(
                         Modifier.fillMaxSize(),
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.Center
                     ) {
                         IconButton(onClick = {
-                            if (dash) {
+
                                 nav.navigate(R.id.action_dashboardScreen_to_savedScreen)
                             }
-                        }
+
                         ) {
                             Icon(
                                 modifier = Modifier.size(28.dp),
@@ -177,6 +178,7 @@ fun topAppBar(dash: Boolean, saved : Boolean, nav: NavController) {
                             )
                         }
                     }
+                }
                 }
 
             }

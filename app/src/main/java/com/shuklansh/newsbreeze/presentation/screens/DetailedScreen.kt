@@ -30,6 +30,7 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.view.size
@@ -150,6 +151,8 @@ class DetailedScreen : Fragment() {
                                 Spacer(modifier = Modifier.height(12.dp))
                                 Text(
                                     title,
+                                    maxLines = 3,
+                                    overflow = TextOverflow.Clip,
                                     color = myAppBg,
                                     fontSize = 26.sp,
                                     fontWeight = FontWeight.W600

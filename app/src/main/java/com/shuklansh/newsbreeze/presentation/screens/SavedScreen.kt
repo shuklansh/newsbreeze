@@ -74,129 +74,142 @@ class SavedScreen : Fragment() {
 
                 NewsBreezeTheme {
                     Scaffold(Modifier.fillMaxSize(),
-                    topBar = {topAppBar(dash = false, saved = true,nav = findNavController() )}) {
+                    topBar = {topAppBar(dash = false, detailed = false,saved = true,nav = findNavController() )}) {
                         Column(
                             Modifier
                                 .fillMaxSize()
-                                .background(myAppBg).padding(8.dp),
+                                .background(myAppBg)
+                                .padding(8.dp),
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.Top) {
                             if(loaded){
 
-                                    Column(Modifier.fillMaxSize().padding(12.dp)) {
+                                    Column(
+                                        Modifier
+                                            .fillMaxSize()
+                                            .padding(12.dp)) {
                                         if(!savedArticles!!.isEmpty()) {
                                         Text("Today", fontSize = 24.sp, color = Color.Black)
-                                        LazyColumn {
-                                            items(savedArticles!!) {
-                                                if (it.article != null) {
-                                                    Column(
-                                                        Modifier.fillMaxWidth().fillMaxHeight()
-                                                            .clip(
-                                                                RoundedCornerShape(16.dp)
-                                                            ).background(Color.White)
-                                                    ) {
-                                                        Row(
-                                                            Modifier.padding(12.dp).clip(
-                                                                RoundedCornerShape(12.dp)
-                                                            ).clickable {
-                                                                val bundle = Bundle()
-                                                                bundle.putString(
-                                                                    "image",
-                                                                    it.article.urlToImage.toString()
-                                                                )
-                                                                bundle.putString(
-                                                                    "title",
-                                                                    it.article.title.toString()
-                                                                )
-                                                                bundle.putString(
-                                                                    "content",
-                                                                    it.article.content.toString()
-                                                                )
-                                                                bundle.putBoolean(
-                                                                    "savedBool",
-                                                                    true
-                                                                )
-                                                                bundle.putString(
-                                                                    "publishedAt",
-                                                                    it.article.publishedAt.toString()
-                                                                )
-                                                                bundle.putString(
-                                                                    "author",
-                                                                    it.article.author.toString()
-                                                                )
-                                                                bundle.putString(
-                                                                    "url",
-                                                                    it.article.url.toString()
-                                                                )
-                                                                bundle.putString(
-                                                                    "description",
-                                                                    it.article.description.toString()
-                                                                )
-                                                                findNavController().navigate(R.id.action_savedScreen_to_detailedScreen,bundle)
-                                                            }
+                                            Spacer(
+                                                Modifier.height(
+                                                    12.dp
+                                                )
+                                            )
+                                        Card(Modifier.fillMaxSize(), elevation = 8.dp,
+                                        shape = RoundedCornerShape(12.dp), backgroundColor = myAppBg
+                                        ) {
+                                            LazyColumn {
+                                                items(savedArticles!!) {
+                                                    if (it.article != null) {
+                                                        Column(
+                                                            Modifier.fillMaxWidth().fillMaxHeight()
+                                                                .clip(
+                                                                    RoundedCornerShape(16.dp)
+                                                                ).background(myAppBg)
                                                         ) {
-
-                                                            AsyncImage(
-                                                                modifier = Modifier.width(132.dp)
-                                                                    .height(132.dp).clip(
+                                                            Row(
+                                                                Modifier.padding(12.dp).clip(
                                                                     RoundedCornerShape(12.dp)
-                                                                ),
-                                                                contentScale = ContentScale.FillBounds,
-                                                                model = it.article.urlToImage,
-                                                                contentDescription = ""
-                                                            )
-                                                            Spacer(Modifier.width(12.dp))
-                                                            Column(
-                                                                Modifier.weight(1f)
-                                                            ) {
-                                                                Text(
-                                                                    it.article.title ?: "no title",
-                                                                    overflow = TextOverflow.Ellipsis,
-                                                                    maxLines = 2,
-                                                                    style = TextStyle(
-                                                                        fontSize = 20.sp,
-                                                                        fontWeight = FontWeight.Bold
+                                                                ).clickable {
+                                                                    val bundle = Bundle()
+                                                                    bundle.putString(
+                                                                        "image",
+                                                                        it.article.urlToImage.toString()
                                                                     )
-                                                                )
-                                                                Spacer(
-                                                                    Modifier.height(
-                                                                        4.dp
+                                                                    bundle.putString(
+                                                                        "title",
+                                                                        it.article.title.toString()
                                                                     )
-                                                                )
-                                                                Row(Modifier.fillMaxWidth()) {
-                                                                    Text(
-                                                                        it.article.publishedAt?.substring(
-                                                                            0,
-                                                                            endIndex = 10
-                                                                        ) ?: "no date",
-                                                                        maxLines = 1,
-                                                                        style = TextStyle(
-                                                                            color = Color.Gray
-                                                                        )
+                                                                    bundle.putString(
+                                                                        "content",
+                                                                        it.article.content.toString()
                                                                     )
-                                                                    Spacer(Modifier.width(12.dp))
-                                                                    Text(
-                                                                        it.article.author
-                                                                            ?: "no author",
-                                                                        maxLines = 1,
-                                                                        style = TextStyle(
-                                                                            color = Color.Gray
-                                                                        )
+                                                                    bundle.putBoolean(
+                                                                        "savedBool",
+                                                                        true
                                                                     )
+                                                                    bundle.putString(
+                                                                        "publishedAt",
+                                                                        it.article.publishedAt.toString()
+                                                                    )
+                                                                    bundle.putString(
+                                                                        "author",
+                                                                        it.article.author.toString()
+                                                                    )
+                                                                    bundle.putString(
+                                                                        "url",
+                                                                        it.article.url.toString()
+                                                                    )
+                                                                    bundle.putString(
+                                                                        "description",
+                                                                        it.article.description.toString()
+                                                                    )
+                                                                    findNavController().navigate(R.id.action_savedScreen_to_detailedScreen,bundle)
                                                                 }
+                                                            ) {
+
+                                                                AsyncImage(
+                                                                    modifier = Modifier.width(132.dp)
+                                                                        .height(132.dp).clip(
+                                                                            RoundedCornerShape(12.dp)
+                                                                        ),
+                                                                    contentScale = ContentScale.FillBounds,
+                                                                    model = it.article.urlToImage,
+                                                                    contentDescription = ""
+                                                                )
+                                                                Spacer(Modifier.width(12.dp))
+                                                                Column(
+                                                                    Modifier.weight(1f)
+                                                                ) {
+                                                                    Text(
+                                                                        it.article.title ?: "no title",
+                                                                        overflow = TextOverflow.Ellipsis,
+                                                                        maxLines = 2,
+                                                                        style = TextStyle(
+                                                                            fontSize = 20.sp,
+                                                                            fontWeight = FontWeight.Bold
+                                                                        )
+                                                                    )
+                                                                    Spacer(
+                                                                        Modifier.height(
+                                                                            4.dp
+                                                                        )
+                                                                    )
+                                                                    Row(Modifier.fillMaxWidth()) {
+                                                                        Text(
+                                                                            it.article.publishedAt?.substring(
+                                                                                0,
+                                                                                endIndex = 10
+                                                                            ) ?: "no date",
+                                                                            maxLines = 1,
+                                                                            style = TextStyle(
+                                                                                color = Color.Gray
+                                                                            )
+                                                                        )
+                                                                        Spacer(Modifier.width(12.dp))
+                                                                        Text(
+                                                                            it.article.author
+                                                                                ?: "no author",
+                                                                            maxLines = 1,
+                                                                            style = TextStyle(
+                                                                                color = Color.Gray
+                                                                            )
+                                                                        )
+                                                                    }
+                                                                }
+                                                                Spacer(Modifier.width(12.dp))
+
+
                                                             }
-                                                            Spacer(Modifier.width(12.dp))
 
 
                                                         }
 
-
+                                                    } else {
+                                                        Text("no articles saved")
                                                     }
 
-                                                } else {
-                                                    Text("no articles saved")
                                                 }
-
                                             }
                                         }
                                     }else{

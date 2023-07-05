@@ -7,12 +7,11 @@ import androidx.room.TypeConverters
 
 @Database(
     entities = [NewsArticlesEntity::class],
-    version = 2
+    version = 1
 )
-
 @TypeConverters(Converters::class)
 abstract class NewsArticlesDatabase : RoomDatabase() {
 
-    abstract val dao : NewsArticlesDao
+    abstract fun dao() : NewsArticlesDao
 
 }

@@ -63,14 +63,14 @@ class NewsViewModel @Inject constructor(
 
     suspend fun addtheArticleToDb(article: Article){
         viewModelScope.launch {
-            db.dao.bookmarkArticle(article = NewsArticlesEntity(article = article, title = article.title ?: "title"))
+            db.dao().bookmarkArticle(article = NewsArticlesEntity(article = article, title = article.title ?: "title"))
             Log.d("$%^","${article.title} added to db")
         }
     }
 
     suspend fun removeFromDb(article: Article){
         viewModelScope.launch {
-            db.dao.deleteArticle(article = NewsArticlesEntity(article = article, title = article.title ?: "title"))
+            db.dao().deleteArticle(article = NewsArticlesEntity(article = article, title = article.title ?: "title"))
             Log.d("$%^","${article.title} removed from db")
         }
     }
@@ -79,15 +79,15 @@ class NewsViewModel @Inject constructor(
         viewModelScope.launch {
             _bookmarkedArticles.update {
                 it.copy(
-                    articles = db.dao.getAllArticles()
+                    articles = db.dao().getAllArticles()
                 )
             }
         }
-        Log.d("$%^","${db.dao.getAllArticles().size}")
+        Log.d("$%^","${db.dao().getAllArticles().size}")
     }
 
     suspend fun isarticleindb(article : Article) : Boolean{
-        return db.dao.isarticleintheDB(article = article)
+        return db.dao().isarticleintheDB(article = article)
     }
 
     fun getNewsForQuery(query : String){

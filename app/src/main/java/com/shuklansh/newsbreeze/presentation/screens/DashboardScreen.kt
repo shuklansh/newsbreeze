@@ -89,7 +89,7 @@ class DashboardScreen : Fragment() {
                         modifier = Modifier
                             .fillMaxSize(),
                         topBar = {
-                            topAppBar(dash = true ,nav)
+                            topAppBar(dash = true, saved = false,nav)
                         }
 
 

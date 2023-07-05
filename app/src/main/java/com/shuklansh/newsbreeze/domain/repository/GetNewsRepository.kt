@@ -8,4 +8,6 @@ interface GetNewsRepository {
 
     fun getNewsWithQuery(query : String) : Flow<Resource<NewsResponse>>
 
+    fun getNewsForQuery(query: String) : Flow<Resource<NewsResponse>>
+
 }

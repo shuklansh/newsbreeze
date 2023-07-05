@@ -17,9 +17,10 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.navigation.findNavController
 import com.shuklansh.newsbreeze.R
 import com.shuklansh.newsbreeze.ui.theme.NewsBreezeTheme
+import dagger.hilt.android.AndroidEntryPoint
 import topAppBar
 
-
+@AndroidEntryPoint
 class DetailedScreen : Fragment() {
 
 
@@ -33,7 +34,7 @@ class DetailedScreen : Fragment() {
             setContent {
                 NewsBreezeTheme {
                     Scaffold(Modifier.fillMaxSize(),
-                        topBar = {topAppBar(dash = false, nav = findNavController() )}) {
+                        topBar = {topAppBar(dash = false, saved = false,nav = findNavController() )}) {
                         Column(
                             Modifier.fillMaxSize(),
                             horizontalAlignment = Alignment.CenterHorizontally,

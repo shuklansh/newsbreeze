@@ -7,38 +7,170 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
+import android.widget.Toast
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
+import coil.compose.AsyncImage
 import com.shuklansh.newsbreeze.R
+import com.shuklansh.newsbreeze.domain.data.Article
+import com.shuklansh.newsbreeze.presentation.NewsViewModel
 import com.shuklansh.newsbreeze.ui.theme.NewsBreezeTheme
+import com.shuklansh.newsbreeze.ui.theme.myAppBg
+import com.shuklansh.newsbreeze.ui.theme.myGray
+import com.shuklansh.newsbreeze.ui.theme.myGreen
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
+import myDivider
 import topAppBar
 
 
+@AndroidEntryPoint
 class SavedScreen : Fragment() {
+
+    var isarticleinDB = false
 
     @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        val vm : NewsViewModel by viewModels()
+
         // Inflate the layout for this fragment
         return ComposeView(requireContext()).apply {
             setContent {
+                var loaded by remember{ mutableStateOf(false) }
+                //var articlesList = remember{ mutableListOf(Article("","","","","","","",false)) }
+
+                var savedArticles = vm.bmlist.collectAsState().value.articles
+                LaunchedEffect(key1 = true ){
+                    vm.getAllArticlesFromDb()
+                    loaded = true
+                }
+
+                var scope = rememberCoroutineScope()
+
                 NewsBreezeTheme {
                     Scaffold(Modifier.fillMaxSize(),
-                    topBar = {topAppBar(dash = false, nav = findNavController() )}) {
+                    topBar = {topAppBar(dash = false, saved = true,nav = findNavController() )}) {
                         Column(
-                            Modifier.fillMaxSize(),
+                            Modifier
+                                .fillMaxSize()
+                                .background(myAppBg).padding(8.dp),
                             horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.Center) {
-                            Text(text = "Saved Screen")
+                            verticalArrangement = Arrangement.Top) {
+                            if(loaded){
+
+                                    Column(Modifier.fillMaxSize().padding(12.dp)) {
+                                        if(!savedArticles!!.isEmpty()) {
+                                        Text("Today", fontSize = 24.sp, color = Color.Black)
+                                        LazyColumn {
+                                            items(savedArticles!!) {
+                                                if (it.article != null) {
+                                                    Column(
+                                                        Modifier.fillMaxWidth().fillMaxHeight()
+                                                            .clip(
+                                                                RoundedCornerShape(16.dp)
+                                                            ).background(Color.White)
+                                                    ) {
+                                                        Row(
+                                                            Modifier.padding(12.dp).clip(
+                                                                RoundedCornerShape(12.dp)
+                                                            )
+                                                        ) {
+
+                                                            AsyncImage(
+                                                                modifier = Modifier.width(132.dp)
+                                                                    .height(132.dp).clip(
+                                                                    RoundedCornerShape(12.dp)
+                                                                ),
+                                                                contentScale = ContentScale.FillBounds,
+                                                                model = it.article.urlToImage,
+                                                                contentDescription = ""
+                                                            )
+                                                            Spacer(Modifier.width(12.dp))
+                                                            Column(
+                                                                Modifier.weight(1f)
+                                                            ) {
+                                                                Text(
+                                                                    it.article.title ?: "no title",
+                                                                    overflow = TextOverflow.Ellipsis,
+                                                                    maxLines = 2,
+                                                                    style = TextStyle(
+                                                                        fontSize = 20.sp,
+                                                                        fontWeight = FontWeight.Bold
+                                                                    )
+                                                                )
+                                                                Spacer(
+                                                                    Modifier.height(
+                                                                        4.dp
+                                                                    )
+                                                                )
+                                                                Row(Modifier.fillMaxWidth()) {
+                                                                    Text(
+                                                                        it.article.publishedAt?.substring(
+                                                                            0,
+                                                                            endIndex = 10
+                                                                        ) ?: "no date",
+                                                                        maxLines = 1,
+                                                                        style = TextStyle(
+                                                                            color = Color.Gray
+                                                                        )
+                                                                    )
+                                                                    Spacer(Modifier.width(12.dp))
+                                                                    Text(
+                                                                        it.article.author
+                                                                            ?: "no author",
+                                                                        maxLines = 1,
+                                                                        style = TextStyle(
+                                                                            color = Color.Gray
+                                                                        )
+                                                                    )
+                                                                }
+                                                            }
+                                                            Spacer(Modifier.width(12.dp))
+
+
+                                                        }
+
+
+                                                    }
+
+                                                } else {
+                                                    Text("no articles saved")
+                                                }
+
+                                            }
+                                        }
+                                    }else{
+                                        Text("No Saved Articles")
+                                        }
+                                }
+                            }else{
+                                CircularProgressIndicator(Modifier.align(Alignment.CenterHorizontally), color = myGreen, backgroundColor = myGray)
+                            }
                         }
                     }
                 }

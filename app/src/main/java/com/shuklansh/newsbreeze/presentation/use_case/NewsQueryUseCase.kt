@@ -15,7 +15,7 @@ class NewsQueryUseCase(
         if(query.isBlank()){
             return flow {  }
         }
-        return repository.getNewsWithQuery(query)
+        return repository.getNewsForQuery(query)
     }
 
 }

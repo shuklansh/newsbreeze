@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_savedScreen_to_dashboardScreen"
             app:destination="@id/dashboardScreen" />
+        <action
+            android:id="@+id/action_savedScreen_to_detailedScreen"
+            app:destination="@id/detailedScreen" />
     </fragment>
     <fragment
         android:id="@+id/detailedScreen"

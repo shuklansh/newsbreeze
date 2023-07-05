@@ -9,6 +9,7 @@ import com.shuklansh.newsbreeze.data.local.NewsArticlesDatabase
 import com.shuklansh.newsbreeze.data.remote.NewsApi
 import com.shuklansh.newsbreeze.data.repository.GetNewsRepositoryImpl
 import com.shuklansh.newsbreeze.domain.repository.GetNewsRepository
+import com.shuklansh.newsbreeze.presentation.use_case.GetNewsForQueryRepository
 import com.shuklansh.newsbreeze.presentation.use_case.NewsQueryUseCase
 import dagger.Module
 import dagger.Provides
@@ -30,6 +31,16 @@ object NewsBreezeModule {
         repository: GetNewsRepository
     ) : NewsQueryUseCase {
         return NewsQueryUseCase(
+            repository = repository
+        )
+    }
+
+    @Singleton
+    @Provides
+    fun getUseCaseQuery(
+        repository: GetNewsRepository
+    ) : GetNewsForQueryRepository {
+        return GetNewsForQueryRepository(
             repository = repository
         )
     }

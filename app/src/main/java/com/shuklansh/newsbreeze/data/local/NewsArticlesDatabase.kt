@@ -7,7 +7,7 @@ import androidx.room.TypeConverters
 
 @Database(
     entities = [NewsArticlesEntity::class],
-    version = 1
+    version = 2
 )
 
 @TypeConverters(Converters::class)

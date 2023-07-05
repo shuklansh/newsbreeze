@@ -76,7 +76,7 @@ fun bookmarkIcon(bookmark: Boolean) {
 }
 
 @Composable
-fun topAppBar(dash: Boolean, nav: NavController) {
+fun topAppBar(dash: Boolean, saved : Boolean, nav: NavController) {
     var clers = FontFamily(
         Font(R.font.clers, FontWeight.Bold)
     )
@@ -94,19 +94,47 @@ fun topAppBar(dash: Boolean, nav: NavController) {
                         fontWeight = FontWeight.Bold,
                         fontSize = 40.sp
                     )
-                } else {
-                    IconButton(onClick = {
-                        nav.popBackStack(
-                            destinationId = R.id.dashboardScreen,
-                            inclusive = false
-                        )
-                    }) {
-                        Icon(
-                            imageVector = Icons.Default.ArrowBackIos,
-                            tint = myAppBg,
-                            contentDescription = ""
-                        )
+                } else if(saved){
+                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceAround, verticalAlignment = Alignment.CenterVertically){
+                        IconButton(onClick = {
+                            nav.popBackStack(
+                                destinationId = R.id.dashboardScreen,
+                                inclusive = false
+                            )
+                        }) {
+                            Icon(
+                                imageVector = Icons.Default.ArrowBackIos,
+                                tint = Color.Black,
+                                contentDescription = ""
+                            )
+                        }
+                        Column(Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally , verticalArrangement = Arrangement.Center ) {
+                            Text("Saved", fontSize = 36.sp, color = myGreen )
+
+                        }
                     }
+                }
+                else{
+
+                        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceAround, verticalAlignment = Alignment.CenterVertically){
+                            IconButton(onClick = {
+                                nav.popBackStack(
+                                    destinationId = R.id.dashboardScreen,
+                                    inclusive = false
+                                )
+                            }) {
+                                Icon(
+                                    imageVector = Icons.Default.ArrowBackIos,
+                                    tint = myAppBg,
+                                    contentDescription = ""
+                                )
+                            }
+//                            Column(Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally , verticalArrangement = Arrangement.Center ) {
+//                                Text("Detailed", fontSize = 36.sp, color = myGreen )
+//
+//                            }
+                        }
+
                 }
             },
             actions = {
@@ -188,10 +216,10 @@ fun searchBar(queryEntered: String, vm: NewsViewModel) {
             unfocusedLabelColor = Color.Transparent,
         ),
         keyboardActions = KeyboardActions(
-            onDone = { vm.getNews(query) },
-            onGo = { vm.getNews(query) },
-            onSend = { vm.getNews(query) },
-            onSearch = { vm.getNews(query) },
+            onDone = { vm.getNewsForQuery(query) },
+            onGo = { vm.getNewsForQuery(query) },
+            onSend = { vm.getNewsForQuery(query) },
+            onSearch = { vm.getNewsForQuery(query) },
         ),
         placeholder = {
             Text(
@@ -203,7 +231,7 @@ fun searchBar(queryEntered: String, vm: NewsViewModel) {
         },
         leadingIcon = {
             IconButton(onClick = {
-                vm.getNews(query)
+                vm.getNewsForQuery(query)
             }) {
                 Icon(
                     tint = myGray,
@@ -213,7 +241,7 @@ fun searchBar(queryEntered: String, vm: NewsViewModel) {
             }
         },
         trailingIcon = {
-            IconButton(onClick = { vm.getNews(query) }) {
+            IconButton(onClick = {  }) {
                 Icon(
                     tint = myGray,
                     imageVector = Icons.Default.Tune,

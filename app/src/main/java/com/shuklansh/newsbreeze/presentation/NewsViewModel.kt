@@ -11,6 +11,7 @@ import com.shuklansh.newsbreeze.core.util.Resource
 import com.shuklansh.newsbreeze.data.local.NewsArticlesDatabase
 import com.shuklansh.newsbreeze.data.local.NewsArticlesEntity
 import com.shuklansh.newsbreeze.domain.data.Article
+import com.shuklansh.newsbreeze.presentation.use_case.GetNewsForQueryRepository
 import com.shuklansh.newsbreeze.presentation.use_case.NewsQueryUseCase
 import com.shuklansh.newsbreeze.presentation.utils.LocalDbList
 import com.shuklansh.newsbreeze.presentation.utils.NewsResultState
@@ -26,6 +27,7 @@ import javax.inject.Inject
 @HiltViewModel
 class NewsViewModel @Inject constructor(
     val getNewsUseCase : NewsQueryUseCase,
+    val GetNewsForQueryRepository : GetNewsForQueryRepository,
     val db : NewsArticlesDatabase
 ) : ViewModel()  {
 
@@ -50,14 +52,14 @@ class NewsViewModel @Inject constructor(
         _query.value = query
     }
 
-    fun updateBookmarkValue(value : Boolean){
-        _bookmarked.update {
-            it.copy(
-                bookmarkBoolean = value
-            )
-        }
-        Log.d("@#$$$",_bookmarked.value.bookmarkBoolean.toString())
-    }
+//    fun updateBookmarkValue(value : Boolean){
+//        _bookmarked.update {
+//            it.copy(
+//                bookmarkBoolean = value
+//            )
+//        }
+//        Log.d("@#$$$",_bookmarked.value.bookmarkBoolean.toString())
+//    }
 
     suspend fun addtheArticleToDb(article: Article){
         viewModelScope.launch {
@@ -88,12 +90,47 @@ class NewsViewModel @Inject constructor(
         return db.dao.isarticleintheDB(article = article)
     }
 
-    fun getNews(word : String){
+    fun getNewsForQuery(word : String){
 //        updateTranslationQuery(word)
         searchJob?.cancel()
         searchJob = viewModelScope.launch {
             delay(500L)
             getNewsUseCase(word).onEach { result ->
+                when (result) {
+                    is Resource.Error -> {
+                        _newsList.value = _newsList.value.copy(
+                            newsArticles = result.data?.articles ?: emptyList(),
+                            newsResponse = result.data,
+                            isLoading = false
+                        )
+                        _eventFlow.emit(UiEvent.snackBarMessage(result.message ?: "Unknown error "))
+                    }
+                    is Resource.Loading -> {
+                        _newsList.value = _newsList.value.copy(
+                            newsArticles = result.data?.articles ?: emptyList(),
+                            newsResponse = result.data,
+                            isLoading = true
+
+                        )
+
+                    }
+                    is Resource.Success -> {
+                        _newsList.value = _newsList.value.copy(
+                            newsArticles = result.data?.articles ?: emptyList(),
+                            newsResponse = result.data,
+                            isLoading = false
+                        )
+                    }
+                }
+            }.launchIn(this)
+        }
+    }
+
+    fun getNews(query : String){
+        searchJob?.cancel()
+        searchJob = viewModelScope.launch {
+            delay(500L)
+            GetNewsForQueryRepository(query).onEach { result ->
                 when (result) {
                     is Resource.Error -> {
                         _newsList.value = _newsList.value.copy(

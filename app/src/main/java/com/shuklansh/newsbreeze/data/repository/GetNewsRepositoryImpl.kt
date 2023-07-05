@@ -21,7 +21,30 @@ class GetNewsRepositoryImpl(
 
         try {
 
-            val newsResponseFromApi = api.getNewsFromQuery(query)
+            val newsResponseFromApi = api.getNewsForTopic(query)
+            emit(Resource.Success(data = newsResponseFromApi.toNewsResponse()))
+
+        } catch (e : HttpException){
+
+            emit(Resource.Error(message = "Could not find result for query $query"))
+            //data = NewsResponse(articles = db.dao.getAllArticles())
+
+        } catch (e : IOException){
+
+            emit(Resource.Error(message = "Check your network connection"))
+            //data = NewsResponse(articles = db.dao.getAllArticles())
+
+        }
+
+    }
+
+    override fun getNewsForQuery(query: String): Flow<Resource<NewsResponse>> = flow{
+
+        emit(Resource.Loading())
+
+        try {
+
+            val newsResponseFromApi = api.getNewsForQuery(query)
             emit(Resource.Success(data = newsResponseFromApi.toNewsResponse()))
 
         } catch (e : HttpException){

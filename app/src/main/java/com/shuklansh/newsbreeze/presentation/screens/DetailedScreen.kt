@@ -39,10 +39,7 @@ import coil.compose.AsyncImage
 import com.shuklansh.newsbreeze.R
 import com.shuklansh.newsbreeze.domain.data.Article
 import com.shuklansh.newsbreeze.presentation.NewsViewModel
-import com.shuklansh.newsbreeze.ui.theme.NewsBreezeTheme
-import com.shuklansh.newsbreeze.ui.theme.myAppBg
-import com.shuklansh.newsbreeze.ui.theme.myGray
-import com.shuklansh.newsbreeze.ui.theme.myGreen
+import com.shuklansh.newsbreeze.ui.theme.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import topAppBar
@@ -138,6 +135,26 @@ class DetailedScreen : Fragment() {
                                     model = image,
                                     contentDescription = ""
                                 )
+                                Column(
+                                    Modifier.fillMaxWidth().fillMaxHeight(0.4f).padding(start = 16.dp, end = 8.dp, bottom = 16.dp),
+                                    verticalArrangement = Arrangement.Bottom, horizontalAlignment = Alignment.Start
+                                ) {
+                                    Text(
+                                        textAlign = TextAlign.Start,
+                                        text = publishedAt,
+                                        color = myLightGray,
+                                        fontSize = 16.sp,
+                                        fontWeight = FontWeight.W300
+                                    )
+
+                                Spacer(modifier = Modifier.height(12.dp))
+                                Text(
+                                    title,
+                                    color = myAppBg,
+                                    fontSize = 26.sp,
+                                    fontWeight = FontWeight.W600
+                                )
+                                }
                                 Row(
                                     Modifier
                                         .fillMaxWidth()
@@ -241,39 +258,43 @@ class DetailedScreen : Fragment() {
                                                 verticalArrangement = Arrangement.Top
                                             ) {
                                                 Spacer(modifier = Modifier.height(12.dp))
-                                                Row(
-                                                    Modifier.fillMaxWidth(),
-                                                    horizontalArrangement = Arrangement.Start
-                                                ) {
-                                                    Text(
-                                                        textAlign = TextAlign.Start,
-                                                        text = publishedAt,
-                                                        color = myGray,
-                                                        fontSize = 16.sp,
-                                                        fontWeight = FontWeight.W300
-                                                    )
-                                                }
-                                                Spacer(modifier = Modifier.height(12.dp))
-                                                Text(
-                                                    title,
-                                                    color = Color.Black,
-                                                    fontSize = 26.sp,
-                                                    fontWeight = FontWeight.W600
-                                                )
+//                                                Row(
+//                                                    Modifier.fillMaxWidth(),
+//                                                    horizontalArrangement = Arrangement.Start
+//                                                ) {
+//                                                    Text(
+//                                                        textAlign = TextAlign.Start,
+//                                                        text = publishedAt,
+//                                                        color = myGray,
+//                                                        fontSize = 16.sp,
+//                                                        fontWeight = FontWeight.W300
+//                                                    )
+//                                                }
+//                                                Spacer(modifier = Modifier.height(12.dp))
+//                                                Text(
+//                                                    title,
+//                                                    color = Color.Black,
+//                                                    fontSize = 26.sp,
+//                                                    fontWeight = FontWeight.W600
+//                                                )
                                                 Spacer(modifier = Modifier.height(12.dp))
                                                 Text(
                                                     if (content == "null") {
                                                         "no content"
                                                     } else {
-                                                        content.replace(
-                                                            content.slice(
-                                                                IntRange(
-                                                                    content.indexOf(
-                                                                        "["
-                                                                    ), content.indexOf("]")
-                                                                )
-                                                            ), ""
-                                                        )
+                                                        if(content.contains("chars]")){
+                                                            content.replace(
+                                                                content.slice(
+                                                                    IntRange(
+                                                                        content.indexOf(
+                                                                            "["
+                                                                        ), content.indexOf("]")
+                                                                    )
+                                                                ), ""
+                                                            )
+                                                        }else{
+                                                            content
+                                                        }
                                                     },
                                                     color = Color.Black,
                                                     fontSize = 20.sp,

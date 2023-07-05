@@ -271,11 +271,11 @@ class DashboardScreen : Fragment() {
                                                                 val bundle = Bundle()
                                                                 bundle.putString(
                                                                     "image",
-                                                                    it.urlToImage
+                                                                    it.urlToImage.toString()
                                                                 )
                                                                 bundle.putString(
                                                                     "title",
-                                                                    it.title
+                                                                    it.title.toString()
                                                                 )
                                                                 bundle.putString(
                                                                     "content",
@@ -287,19 +287,19 @@ class DashboardScreen : Fragment() {
                                                                 )
                                                                 bundle.putString(
                                                                     "publishedAt",
-                                                                    it.publishedAt
+                                                                    it.publishedAt.toString()
                                                                 )
                                                                 bundle.putString(
                                                                     "author",
-                                                                    it.author
+                                                                    it.author.toString()
                                                                 )
                                                                 bundle.putString(
                                                                     "url",
-                                                                    it.url
+                                                                    it.url.toString()
                                                                 )
                                                                 bundle.putString(
                                                                     "description",
-                                                                    it.description
+                                                                    it.description.toString()
                                                                 )
                                                                 findNavController().navigate(R.id.action_dashboardScreen_to_detailedScreen,bundle)
                                                           },
@@ -327,7 +327,7 @@ class DashboardScreen : Fragment() {
                                                                     isarticleinDB = vm.isarticleindb(it)
                                                                     bookmarked = isarticleinDB
                                                                 }
-                                                                      },
+                                                          },
                                                             colors = ButtonDefaults.buttonColors(
                                                                 backgroundColor = myGreen
                                                             )

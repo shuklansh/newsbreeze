@@ -63,15 +63,13 @@ class NewsViewModel @Inject constructor(
 
     suspend fun addtheArticleToDb(article: Article){
         viewModelScope.launch {
-            db.dao().bookmarkArticle(article = NewsArticlesEntity(article = article, title = article.title ?: "title"))
-            Log.d("$%^","${article.title} added to db")
+            GetNewsForQueryRepository.repository.addtheArticleToDb(article)
         }
     }
 
     suspend fun removeFromDb(article: Article){
         viewModelScope.launch {
-            db.dao().deleteArticle(article = NewsArticlesEntity(article = article, title = article.title ?: "title"))
-            Log.d("$%^","${article.title} removed from db")
+            GetNewsForQueryRepository.repository.removeFromDb(article)
         }
     }
 

@@ -18,7 +18,7 @@ News reader application with bookmark, sort (by date and title) and search featu
 
 ![image](https://github.com/shuklansh/newsbreeze/assets/89148178/653c4f70-0f34-484f-9699-6c0338c87a1a)
 
-Sort articles by Title:
+Sort articles by order they were saved in:
 
 ![image](https://github.com/shuklansh/newsbreeze/assets/89148178/564c18ac-cd94-4be1-a72d-48ea588f5a91)
 

@@ -6,8 +6,8 @@ import androidx.room.TypeConverters
 
 
 @Database(
-    entities = [NewsArticlesEntity::class],
-    version = 1
+    entities = [ArticleEntity::class],
+    version = 2
 )
 @TypeConverters(Converters::class)
 abstract class NewsArticlesDatabase : RoomDatabase() {

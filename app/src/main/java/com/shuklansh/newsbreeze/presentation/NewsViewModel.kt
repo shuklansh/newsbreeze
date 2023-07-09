@@ -1,15 +1,10 @@
 package com.shuklansh.newsbreeze.presentation
 
 import android.util.Log
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.shuklansh.newsbreeze.core.util.Resource
 import com.shuklansh.newsbreeze.data.local.NewsArticlesDatabase
-import com.shuklansh.newsbreeze.data.local.NewsArticlesEntity
 import com.shuklansh.newsbreeze.domain.data.Article
 import com.shuklansh.newsbreeze.presentation.use_case.GetNewsForQueryRepository
 import com.shuklansh.newsbreeze.presentation.use_case.NewsQueryUseCase
@@ -30,6 +25,9 @@ class NewsViewModel @Inject constructor(
     val GetNewsForQueryRepository : GetNewsForQueryRepository,
     val db : NewsArticlesDatabase
 ) : ViewModel()  {
+
+    private var _sort = MutableStateFlow(false)
+    val sort = _sort.asStateFlow()
 
     private val _bookmarked = MutableStateFlow(bookmarked())
     val bookMarkedBool = _bookmarked.asStateFlow()
@@ -76,17 +74,44 @@ class NewsViewModel @Inject constructor(
     suspend fun getAllArticlesFromDb(){
         viewModelScope.launch {
             _bookmarkedArticles.update {
-                it.copy(
-                    articles = db.dao().getAllArticles()
-                )
+
+                    it.copy(
+                        articles = db.dao().getAllArticles()
+                    )
+
             }
         }
         Log.d("$%^","${db.dao().getAllArticles().size}")
     }
 
-    suspend fun isarticleindb(article : Article) : Boolean{
-        return db.dao().isarticleintheDB(article = article)
+    suspend fun getAllArticlesFromDbbydate(){
+        viewModelScope.launch {
+            _bookmarkedArticles.update {
+
+                    it.copy(
+                        articles = db.dao().getAllArticlesByDate()
+                    )
+
+            }
+        }
+        Log.d("$%^","${db.dao().getAllArticles().size}")
     }
+
+    fun updateSortVal(){
+        if(sort.value==true){
+            _sort.value=false
+            Log.d("%%%",_sort.value.toString())
+        }else{
+            _sort.value=true
+            Log.d("%%%",_sort.value.toString())
+        }
+    }
+
+    suspend fun isarticleindb(article : Article) : Boolean{
+        return db.dao().isarticleintheDB(title = article.title!!)
+    }
+
+
 
     fun getNewsForQuery(query : String){
 //        updateTranslationQuery(query)

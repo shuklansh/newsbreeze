@@ -3,20 +3,20 @@ package com.shuklansh.newsbreeze.data.local
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.shuklansh.newsbreeze.domain.data.Article
-import com.shuklansh.newsbreeze.domain.data.NewsResponse
+import java.time.format.DateTimeFormatter
 
 
-@Entity(tableName = "NewsArticlesEntity")
-data class NewsArticlesEntity(
+@Entity(tableName = "ArticleEntity")
+data class ArticleEntity(
 //    @PrimaryKey(autoGenerate = true)
 //    val id : Int? = null,
     @PrimaryKey
     val title : String = "title" ,
-    val article: Article? = null
-) {
+    val author: String?,
+    val content: String?,
+    val description: String?,
+    val publishedAt: String?,
+    val url: String?,
+    val urlToImage: String?,
+)
 
-    fun toArticle() : Article{
-        return article!!
-    }
-
-}

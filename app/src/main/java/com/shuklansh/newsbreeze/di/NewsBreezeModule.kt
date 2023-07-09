@@ -69,6 +69,16 @@ object NewsBreezeModule {
     }
 
 
+//    @Singleton
+//    @Provides
+//    fun provideDatabase(app : Application) : NewsArticlesDatabase{
+//        return Room.databaseBuilder(
+//            app,
+//            klass = NewsArticlesDatabase::class.java,
+//            name = "NewsArticlesDb"
+//        ).addTypeConverter(Converters(GsonParser(Gson()))).fallbackToDestructiveMigration().build()
+//    }
+//
     @Singleton
     @Provides
     fun provideDatabase(app : Application) : NewsArticlesDatabase{
@@ -76,7 +86,7 @@ object NewsBreezeModule {
             app,
             klass = NewsArticlesDatabase::class.java,
             name = "NewsArticlesDb"
-        ).addTypeConverter(Converters(GsonParser(Gson()))).fallbackToDestructiveMigration().build()
+        ).fallbackToDestructiveMigration().build()
     }
 
 

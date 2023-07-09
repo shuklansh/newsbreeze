@@ -3,6 +3,7 @@ package com.shuklansh.newsbreeze.presentation.screens
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +16,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CalendarMonth
+import androidx.compose.material.icons.filled.Subtitles
+import androidx.compose.material.icons.filled.Tune
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -63,7 +68,6 @@ class SavedScreen : Fragment() {
             setContent {
                 var loaded by remember{ mutableStateOf(false) }
                 //var articlesList = remember{ mutableListOf(Article("","","","","","","",false)) }
-
                 var savedArticles = vm.bmlist.collectAsState().value.articles
                 LaunchedEffect(key1 = true ){
                     vm.getAllArticlesFromDb()
@@ -89,72 +93,107 @@ class SavedScreen : Fragment() {
                                             .fillMaxSize()
                                             .padding(12.dp)) {
                                         if(!savedArticles!!.isEmpty()) {
-                                        Text("Today", fontSize = 24.sp, color = Color.Black)
+                                        Row(Modifier.fillMaxWidth()){
+                                            Text("Today", fontSize = 24.sp, color = Color.Black)
                                             Spacer(
                                                 Modifier.height(
                                                     12.dp
                                                 )
                                             )
+                                            Row(Modifier.weight(1f), horizontalArrangement = Arrangement.End) {
+                                                IconButton(onClick = {
+                                                    scope.launch { vm.getAllArticlesFromDbbydate() }
+                                                }) {
+                                                    Icon(
+                                                        tint = myGray,
+                                                        imageVector = Icons.Default.CalendarMonth,
+                                                        contentDescription = ""
+                                                    )
+                                                }
+                                                Spacer(Modifier.height(12.dp))
+                                                IconButton(onClick = {
+                                                    scope.launch{ vm.getAllArticlesFromDb() }
+                                                }) {
+                                                    Icon(
+                                                        tint = myGray,
+                                                        imageVector = Icons.Default.Subtitles,
+                                                        contentDescription = ""
+                                                    )
+                                                }
+                                            }
+                                        }
                                         Card(Modifier.fillMaxSize(), elevation = 8.dp,
                                         shape = RoundedCornerShape(12.dp), backgroundColor = myAppBg
                                         ) {
+
                                             LazyColumn {
                                                 items(savedArticles!!) {
-                                                    if (it.article != null) {
+                                                    if (it != null) {
                                                         Column(
-                                                            Modifier.fillMaxWidth().fillMaxHeight()
+                                                            Modifier
+                                                                .fillMaxWidth()
+                                                                .fillMaxHeight()
                                                                 .clip(
                                                                     RoundedCornerShape(16.dp)
-                                                                ).background(myAppBg)
+                                                                )
+                                                                .background(myAppBg)
                                                         ) {
                                                             Row(
-                                                                Modifier.padding(12.dp).clip(
-                                                                    RoundedCornerShape(12.dp)
-                                                                ).clickable {
-                                                                    val bundle = Bundle()
-                                                                    bundle.putString(
-                                                                        "image",
-                                                                        it.article.urlToImage.toString()
+                                                                Modifier
+                                                                    .padding(12.dp)
+                                                                    .clip(
+                                                                        RoundedCornerShape(12.dp)
                                                                     )
-                                                                    bundle.putString(
-                                                                        "title",
-                                                                        it.article.title.toString()
-                                                                    )
-                                                                    bundle.putString(
-                                                                        "content",
-                                                                        it.article.content.toString()
-                                                                    )
-                                                                    bundle.putBoolean(
-                                                                        "savedBool",
-                                                                        true
-                                                                    )
-                                                                    bundle.putString(
-                                                                        "publishedAt",
-                                                                        it.article.publishedAt.toString()
-                                                                    )
-                                                                    bundle.putString(
-                                                                        "author",
-                                                                        it.article.author.toString()
-                                                                    )
-                                                                    bundle.putString(
-                                                                        "url",
-                                                                        it.article.url.toString()
-                                                                    )
-                                                                    bundle.putString(
-                                                                        "description",
-                                                                        it.article.description.toString()
-                                                                    )
-                                                                    findNavController().navigate(R.id.action_savedScreen_to_detailedScreen,bundle)
-                                                                }
+                                                                    .clickable {
+                                                                        val bundle = Bundle()
+                                                                        bundle.putString(
+                                                                            "image",
+                                                                            it.urlToImage.toString()
+                                                                        )
+                                                                        bundle.putString(
+                                                                            "title",
+                                                                            it.title.toString()
+                                                                        )
+                                                                        bundle.putString(
+                                                                            "content",
+                                                                            it.content.toString()
+                                                                        )
+                                                                        bundle.putBoolean(
+                                                                            "savedBool",
+                                                                            true
+                                                                        )
+                                                                        bundle.putString(
+                                                                            "publishedAt",
+                                                                            it.publishedAt.toString()
+                                                                        )
+                                                                        bundle.putString(
+                                                                            "author",
+                                                                            it.author.toString()
+                                                                        )
+                                                                        bundle.putString(
+                                                                            "url",
+                                                                            it.url.toString()
+                                                                        )
+                                                                        bundle.putString(
+                                                                            "description",
+                                                                            it.description.toString()
+                                                                        )
+                                                                        findNavController().navigate(
+                                                                            R.id.action_savedScreen_to_detailedScreen,
+                                                                            bundle
+                                                                        )
+                                                                    }
                                                             ) {
 
                                                                 AsyncImage(
-                                                                    modifier = Modifier.width(132.dp)
-                                                                        .height(132.dp).clip(
+                                                                    modifier = Modifier
+                                                                        .width(132.dp)
+                                                                        .height(132.dp)
+                                                                        .clip(
                                                                             RoundedCornerShape(12.dp)
                                                                         ),
                                                                     contentScale = ContentScale.FillBounds,
-                                                                    model = it.article.urlToImage,
+                                                                    model = it.urlToImage,
                                                                     contentDescription = ""
                                                                 )
                                                                 Spacer(Modifier.width(12.dp))
@@ -162,7 +201,7 @@ class SavedScreen : Fragment() {
                                                                     Modifier.weight(1f)
                                                                 ) {
                                                                     Text(
-                                                                        it.article.title ?: "no title",
+                                                                        it.title ?: "no title",
                                                                         overflow = TextOverflow.Ellipsis,
                                                                         maxLines = 2,
                                                                         style = TextStyle(
@@ -177,7 +216,7 @@ class SavedScreen : Fragment() {
                                                                     )
                                                                     Row(Modifier.fillMaxWidth()) {
                                                                         Text(
-                                                                            it.article.publishedAt?.substring(
+                                                                            it.publishedAt?.substring(
                                                                                 0,
                                                                                 endIndex = 10
                                                                             ) ?: "no date",
@@ -188,7 +227,7 @@ class SavedScreen : Fragment() {
                                                                         )
                                                                         Spacer(Modifier.width(12.dp))
                                                                         Text(
-                                                                            it.article.author
+                                                                            it.author
                                                                                 ?: "no author",
                                                                             maxLines = 1,
                                                                             style = TextStyle(

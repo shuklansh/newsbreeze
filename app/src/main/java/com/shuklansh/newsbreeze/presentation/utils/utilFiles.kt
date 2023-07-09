@@ -1,6 +1,6 @@
 package com.shuklansh.newsbreeze.presentation.utils
 
-import com.shuklansh.newsbreeze.data.local.NewsArticlesEntity
+import com.shuklansh.newsbreeze.data.local.ArticleEntity
 import com.shuklansh.newsbreeze.domain.data.Article
 import com.shuklansh.newsbreeze.domain.data.NewsResponse
 
@@ -19,5 +19,5 @@ sealed class UiEvent{
 }
 
 data class LocalDbList(
-    val articles: List<NewsArticlesEntity>? = emptyList()
+    val articles: List<ArticleEntity>? = emptyList()
 )

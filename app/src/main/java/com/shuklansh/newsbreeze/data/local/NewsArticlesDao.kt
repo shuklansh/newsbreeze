@@ -5,22 +5,24 @@ import androidx.room.Delete
 import androidx.room.Query
 import androidx.room.Upsert
 import com.shuklansh.newsbreeze.domain.data.Article
-import com.shuklansh.newsbreeze.domain.data.NewsResponse
 
 
 @Dao
 interface NewsArticlesDao {
 
     @Upsert
-    suspend fun bookmarkArticle( article: NewsArticlesEntity )
+    suspend fun bookmarkArticle( article: ArticleEntity )
 
     @Delete
-    suspend fun deleteArticle( article: NewsArticlesEntity )
+    suspend fun deleteArticle( article: ArticleEntity )
 
-    @Query("SELECT * FROM newsarticlesentity")
-    suspend fun getAllArticles() : List<NewsArticlesEntity>
+    @Query("SELECT * FROM articleentity ORDER BY author")
+    suspend fun getAllArticles() : List<ArticleEntity>
 
-    @Query("SELECT EXISTS(SELECT * FROM newsarticlesentity WHERE article = :article)")
-    suspend fun isarticleintheDB(article : Article) : Boolean
+    @Query("SELECT * FROM articleentity ORDER BY publishedAt")
+    suspend fun getAllArticlesByDate() : List<ArticleEntity>
+
+    @Query("SELECT EXISTS(SELECT * FROM articleentity WHERE title = :title)")
+    suspend fun isarticleintheDB(title : String) : Boolean
 
 }

@@ -1,17 +1,15 @@
 package com.shuklansh.newsbreeze.data.repository
 
 import android.util.Log
-import androidx.lifecycle.viewModelScope
 import com.shuklansh.newsbreeze.core.util.Resource
 import com.shuklansh.newsbreeze.data.local.NewsArticlesDatabase
-import com.shuklansh.newsbreeze.data.local.NewsArticlesEntity
+import com.shuklansh.newsbreeze.data.local.ArticleEntity
 import com.shuklansh.newsbreeze.data.remote.NewsApi
 import com.shuklansh.newsbreeze.domain.data.Article
 import com.shuklansh.newsbreeze.domain.data.NewsResponse
 import com.shuklansh.newsbreeze.domain.repository.GetNewsRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
 
@@ -68,14 +66,14 @@ class GetNewsRepositoryImpl(
 
     override suspend fun addtheArticleToDb(article: Article){
 
-            db.dao().bookmarkArticle(article = NewsArticlesEntity(article = article, title = article.title ?: "title"))
+            db.dao().bookmarkArticle(article = article.toArticleEntity())
             Log.d("$%^","${article.title} added to db")
 
     }
 
     override suspend fun removeFromDb(article: Article){
 
-            db.dao().deleteArticle(article = NewsArticlesEntity(article = article, title = article.title ?: "title"))
+            db.dao().deleteArticle(article = article.toArticleEntity())
             Log.d("$%^","${article.title} removed from db")
 
     }

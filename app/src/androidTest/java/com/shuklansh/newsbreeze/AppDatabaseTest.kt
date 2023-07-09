@@ -74,7 +74,7 @@ class AppDatabaseTest{
     }
 
     @Test
-    fun sortArticleby_date_expected_size_Zero() = runBlocking{
+    fun sortArticleby_date_expected_date_order() = runBlocking{
         val testArticle1 = Article("","","","02-03-2023","TestArticle1","","",false)
         val testArticle2 = Article("","","","03-03-2023","TestArticle2","","",false)
         val testNewsArticlesEntity1 = testArticle1.toArticleEntity()

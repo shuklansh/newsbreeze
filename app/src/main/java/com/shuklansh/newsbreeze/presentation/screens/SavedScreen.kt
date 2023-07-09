@@ -3,12 +3,10 @@ package com.shuklansh.newsbreeze.presentation.screens
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -19,7 +17,6 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Subtitles
-import androidx.compose.material.icons.filled.Tune
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,8 +24,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -38,7 +33,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import coil.compose.AsyncImage
 import com.shuklansh.newsbreeze.R
-import com.shuklansh.newsbreeze.domain.data.Article
 import com.shuklansh.newsbreeze.presentation.NewsViewModel
 import com.shuklansh.newsbreeze.ui.theme.NewsBreezeTheme
 import com.shuklansh.newsbreeze.ui.theme.myAppBg
@@ -46,7 +40,6 @@ import com.shuklansh.newsbreeze.ui.theme.myGray
 import com.shuklansh.newsbreeze.ui.theme.myGreen
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import myDivider
 import topAppBar
 
 
@@ -67,6 +60,8 @@ class SavedScreen : Fragment() {
         return ComposeView(requireContext()).apply {
             setContent {
                 var loaded by remember{ mutableStateOf(false) }
+//                var sortval = vm.sort.collectAsState()
+                var sortvalbydate by remember { mutableStateOf(false) }
                 //var articlesList = remember{ mutableListOf(Article("","","","","","","",false)) }
                 var savedArticles = vm.bmlist.collectAsState().value.articles
                 LaunchedEffect(key1 = true ){
@@ -103,9 +98,10 @@ class SavedScreen : Fragment() {
                                             Row(Modifier.weight(1f), horizontalArrangement = Arrangement.End) {
                                                 IconButton(onClick = {
                                                     scope.launch { vm.getAllArticlesFromDbbydate() }
+                                                    sortvalbydate = true
                                                 }) {
                                                     Icon(
-                                                        tint = myGray,
+                                                        tint = if(sortvalbydate) Color.Black else myGray,
                                                         imageVector = Icons.Default.CalendarMonth,
                                                         contentDescription = ""
                                                     )
@@ -113,9 +109,10 @@ class SavedScreen : Fragment() {
                                                 Spacer(Modifier.height(12.dp))
                                                 IconButton(onClick = {
                                                     scope.launch{ vm.getAllArticlesFromDb() }
+                                                    sortvalbydate = false
                                                 }) {
                                                     Icon(
-                                                        tint = myGray,
+                                                        tint = if(sortvalbydate) myGray else Color.Black,
                                                         imageVector = Icons.Default.Subtitles,
                                                         contentDescription = ""
                                                     )

@@ -16,10 +16,10 @@ interface NewsArticlesDao {
     @Delete
     suspend fun deleteArticle( article: ArticleEntity )
 
-    @Query("SELECT * FROM articleentity ORDER BY author")
+    @Query("SELECT * FROM articleentity ORDER BY author ASC")
     suspend fun getAllArticles() : List<ArticleEntity>
 
-    @Query("SELECT * FROM articleentity ORDER BY publishedAt")
+    @Query("SELECT * FROM articleentity ORDER BY publishedAt DESC")
     suspend fun getAllArticlesByDate() : List<ArticleEntity>
 
     @Query("SELECT EXISTS(SELECT * FROM articleentity WHERE title = :title)")

@@ -70,7 +70,8 @@ class DashboardScreen : Fragment() {
 
                 LaunchedEffect(key1 = true) {
 
-                    vm.getNews("general")
+                    //vm.getNews("general")
+                    vm.onEvent(UserEvent.getNewsByCategory("general"))
                     vm.eventFlow.collectLatest { event ->
                         when (event) {
                             is UiEvent.snackBarMessage -> {
@@ -180,7 +181,8 @@ class DashboardScreen : Fragment() {
                                                                     if (bookmarked) {
                                                                         IconButton(onClick = {
                                                                             scope.launch{
-                                                                                vm.removeFromDb(article = it )
+                                                                                //vm.removeFromDb(article = it )
+                                                                                vm.onEvent(UserEvent.removeBookmarkArticle(it))
                                                                                 vm.onEvent(UserEvent.GetBookmarkArticlebyOrderSave)
                                                                                 isarticleinDB = vm.isarticleindb(it)
                                                                                 bookmarked = isarticleinDB
@@ -197,7 +199,7 @@ class DashboardScreen : Fragment() {
                                                                     } else {
                                                                         IconButton(onClick = {
                                                                             scope.launch{
-                                                                                vm.addtheArticleToDb(article = it )
+                                                                                vm.onEvent(UserEvent.BookmarkArticle(it))
                                                                                 vm.onEvent(UserEvent.GetBookmarkArticlebyOrderSave)
                                                                                 isarticleinDB = vm.isarticleindb(it)
                                                                                 bookmarked = isarticleinDB
@@ -323,7 +325,7 @@ class DashboardScreen : Fragment() {
                                                             shape = RoundedCornerShape(8.dp),
                                                             onClick = {
                                                                 scope.launch{
-                                                                    vm.addtheArticleToDb(article = it )
+                                                                    vm.onEvent(UserEvent.BookmarkArticle(it))
                                                                     vm.onEvent(UserEvent.GetBookmarkArticlebyOrderSave)
                                                                     isarticleinDB = vm.isarticleindb(it)
                                                                     bookmarked = isarticleinDB

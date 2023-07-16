@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.shuklansh.newsbreeze.R
 import com.shuklansh.newsbreeze.presentation.NewsViewModel
+import com.shuklansh.newsbreeze.presentation.user_events.UserEvent
 import com.shuklansh.newsbreeze.ui.theme.*
 import kotlinx.coroutines.flow.collect
 
@@ -224,16 +225,16 @@ fun searchBar(queryEntered: String, vm: NewsViewModel) {
             unfocusedLabelColor = Color.Transparent,
         ),
         keyboardActions = KeyboardActions(
-            onDone = { vm.getNewsForQuery(query)
+            onDone = { vm.onEvent(UserEvent.getNewsByQuery(query))
                 focuManager.clearFocus()
                 keybo?.hide()},
-            onGo = { vm.getNewsForQuery(query)
+            onGo = { vm.onEvent(UserEvent.getNewsByQuery(query))
                 focuManager.clearFocus()
                 keybo?.hide()},
-            onSend = { vm.getNewsForQuery(query)
+            onSend = { vm.onEvent(UserEvent.getNewsByQuery(query))
                 focuManager.clearFocus()
                 keybo?.hide()},
-            onSearch = { vm.getNewsForQuery(query)
+            onSearch = { vm.onEvent(UserEvent.getNewsByQuery(query))
                 focuManager.clearFocus()
                 keybo?.hide()},
         ),
@@ -248,7 +249,8 @@ fun searchBar(queryEntered: String, vm: NewsViewModel) {
         leadingIcon = {
             IconButton(onClick = {
 //                vm.getNewsForQuery(query)
-                vm.getNews(query)
+//                vm.getNews(query)
+                vm.onEvent(UserEvent.getNewsByCategory(query))
                 focuManager.clearFocus()
                 keybo?.hide()
             }) {

@@ -180,7 +180,8 @@ class DetailedScreen : Fragment() {
                                     if (bookmarked) {
                                         IconButton(onClick = {
                                             scope.launch {
-                                                vm.removeFromDb(article = articFromPrevScreen)
+                                                //vm.removeFromDb(article = articFromPrevScreen)
+                                                vm.onEvent(UserEvent.removeBookmarkArticle(articFromPrevScreen))
                                                 vm.onEvent(UserEvent.GetBookmarkArticlebyOrderSave)
                                                 isarticleinDB = false
                                                 bookmarked = isarticleinDB
@@ -196,7 +197,8 @@ class DetailedScreen : Fragment() {
                                     } else {
                                         IconButton(onClick = {
                                             scope.launch {
-                                                vm.addtheArticleToDb(article = articFromPrevScreen)
+                                                //vm.addtheArticleToDb(article = articFromPrevScreen)
+                                                vm.onEvent(UserEvent.BookmarkArticle(article = articFromPrevScreen))
                                                 vm.onEvent(UserEvent.GetBookmarkArticlebyOrderSave)
                                                 isarticleinDB = true
                                                 bookmarked = isarticleinDB

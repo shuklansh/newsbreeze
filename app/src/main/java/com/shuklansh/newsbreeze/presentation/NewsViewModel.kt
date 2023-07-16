@@ -27,11 +27,11 @@ class NewsViewModel @Inject constructor(
     val db : NewsArticlesDatabase
 ) : ViewModel()  {
 
-    private var _sort = MutableStateFlow(false)
-    val sort = _sort.asStateFlow()
-
-    private val _bookmarked = MutableStateFlow(bookmarked())
-    val bookMarkedBool = _bookmarked.asStateFlow()
+//    private var _sort = MutableStateFlow(false)
+//    val sort = _sort.asStateFlow()
+//
+//    private val _bookmarked = MutableStateFlow(bookmarked())
+//    val bookMarkedBool = _bookmarked.asStateFlow()
 
     private val _newsList = MutableStateFlow(NewsResultState())
     val newsList = _newsList.asStateFlow()
@@ -56,9 +56,7 @@ class NewsViewModel @Inject constructor(
         when(event){
             is UserEvent.BookmarkArticle -> {
                 viewModelScope.launch {
-                    addtheArticleToDb(
-                        article = event.article
-                    )
+                    GetNewsForQueryRepository.repository.addtheArticleToDb(article = event.article)
                 }
             }
             UserEvent.GetBookmarkArticlebyDate -> {
@@ -96,9 +94,7 @@ class NewsViewModel @Inject constructor(
             }
             is UserEvent.removeBookmarkArticle -> {
                 viewModelScope.launch {
-                    removeFromDb(
-                        article = event.article
-                    )
+                    GetNewsForQueryRepository.repository.removeFromDb(article = event.article)
                 }
 
             }
@@ -116,43 +112,43 @@ class NewsViewModel @Inject constructor(
 //        Log.d("@#$$$",_bookmarked.value.bookmarkBoolean.toString())
 //    }
 
-    suspend fun addtheArticleToDb(article: Article){
-        viewModelScope.launch {
-            GetNewsForQueryRepository.repository.addtheArticleToDb(article)
-        }
-    }
-
-    suspend fun removeFromDb(article: Article){
-        viewModelScope.launch {
-            GetNewsForQueryRepository.repository.removeFromDb(article)
-        }
-    }
-
-    suspend fun getAllArticlesFromDb(){
-        viewModelScope.launch {
-            _bookmarkedArticles.update {
-
-                    it.copy(
-                        articles = db.dao().getAllArticles()
-                    )
-
-            }
-        }
-        Log.d("$%^","${db.dao().getAllArticles().size}")
-    }
-
-    suspend fun getAllArticlesFromDbbydate(){
-        viewModelScope.launch {
-            _bookmarkedArticles.update {
-
-                    it.copy(
-                        articles = db.dao().getAllArticlesByDate()
-                    )
-
-            }
-        }
-        Log.d("$%^","${db.dao().getAllArticles().size}")
-    }
+//    suspend fun addtheArticleToDb(article: Article){
+//        viewModelScope.launch {
+//            GetNewsForQueryRepository.repository.addtheArticleToDb(article)
+//        }
+//    }
+//
+//    suspend fun removeFromDb(article: Article){
+//        viewModelScope.launch {
+//            GetNewsForQueryRepository.repository.removeFromDb(article)
+//        }
+//    }
+//
+//    suspend fun getAllArticlesFromDb(){
+//        viewModelScope.launch {
+//            _bookmarkedArticles.update {
+//
+//                    it.copy(
+//                        articles = db.dao().getAllArticles()
+//                    )
+//
+//            }
+//        }
+//        Log.d("$%^","${db.dao().getAllArticles().size}")
+//    }
+//
+//    suspend fun getAllArticlesFromDbbydate(){
+//        viewModelScope.launch {
+//            _bookmarkedArticles.update {
+//
+//                    it.copy(
+//                        articles = db.dao().getAllArticlesByDate()
+//                    )
+//
+//            }
+//        }
+//        Log.d("$%^","${db.dao().getAllArticles().size}")
+//    }
 
 //    fun updateSortVal(){
 //        if(sort.value==true){

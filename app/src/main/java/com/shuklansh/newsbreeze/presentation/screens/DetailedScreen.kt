@@ -40,6 +40,7 @@ import coil.compose.AsyncImage
 import com.shuklansh.newsbreeze.R
 import com.shuklansh.newsbreeze.domain.data.Article
 import com.shuklansh.newsbreeze.presentation.NewsViewModel
+import com.shuklansh.newsbreeze.presentation.user_events.UserEvent
 import com.shuklansh.newsbreeze.ui.theme.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -180,7 +181,7 @@ class DetailedScreen : Fragment() {
                                         IconButton(onClick = {
                                             scope.launch {
                                                 vm.removeFromDb(article = articFromPrevScreen)
-                                                vm.getAllArticlesFromDb()
+                                                vm.onEvent(UserEvent.GetBookmarkArticlebyOrderSave)
                                                 isarticleinDB = false
                                                 bookmarked = isarticleinDB
                                             }
@@ -196,7 +197,7 @@ class DetailedScreen : Fragment() {
                                         IconButton(onClick = {
                                             scope.launch {
                                                 vm.addtheArticleToDb(article = articFromPrevScreen)
-                                                vm.getAllArticlesFromDb()
+                                                vm.onEvent(UserEvent.GetBookmarkArticlebyOrderSave)
                                                 isarticleinDB = true
                                                 bookmarked = isarticleinDB
                                             }

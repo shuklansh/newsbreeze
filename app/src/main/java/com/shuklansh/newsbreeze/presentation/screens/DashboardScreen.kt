@@ -36,6 +36,7 @@ import bookmarkIcon
 import coil.compose.AsyncImage
 import com.shuklansh.newsbreeze.R
 import com.shuklansh.newsbreeze.presentation.NewsViewModel
+import com.shuklansh.newsbreeze.presentation.user_events.UserEvent
 import com.shuklansh.newsbreeze.presentation.utils.UiEvent
 import com.shuklansh.newsbreeze.ui.theme.*
 import dagger.hilt.android.AndroidEntryPoint
@@ -180,7 +181,7 @@ class DashboardScreen : Fragment() {
                                                                         IconButton(onClick = {
                                                                             scope.launch{
                                                                                 vm.removeFromDb(article = it )
-                                                                                vm.getAllArticlesFromDb()
+                                                                                vm.onEvent(UserEvent.GetBookmarkArticlebyOrderSave)
                                                                                 isarticleinDB = vm.isarticleindb(it)
                                                                                 bookmarked = isarticleinDB
                                                                             }
@@ -197,7 +198,7 @@ class DashboardScreen : Fragment() {
                                                                         IconButton(onClick = {
                                                                             scope.launch{
                                                                                 vm.addtheArticleToDb(article = it )
-                                                                                vm.getAllArticlesFromDb()
+                                                                                vm.onEvent(UserEvent.GetBookmarkArticlebyOrderSave)
                                                                                 isarticleinDB = vm.isarticleindb(it)
                                                                                 bookmarked = isarticleinDB
                                                                             }
@@ -323,7 +324,7 @@ class DashboardScreen : Fragment() {
                                                             onClick = {
                                                                 scope.launch{
                                                                     vm.addtheArticleToDb(article = it )
-                                                                    vm.getAllArticlesFromDb()
+                                                                    vm.onEvent(UserEvent.GetBookmarkArticlebyOrderSave)
                                                                     isarticleinDB = vm.isarticleindb(it)
                                                                     bookmarked = isarticleinDB
                                                                 }

@@ -8,6 +8,7 @@ import com.shuklansh.newsbreeze.data.local.NewsArticlesDatabase
 import com.shuklansh.newsbreeze.domain.data.Article
 import com.shuklansh.newsbreeze.presentation.use_case.GetNewsForQueryRepository
 import com.shuklansh.newsbreeze.presentation.use_case.NewsQueryUseCase
+import com.shuklansh.newsbreeze.presentation.user_events.UserEvent
 import com.shuklansh.newsbreeze.presentation.utils.LocalDbList
 import com.shuklansh.newsbreeze.presentation.utils.NewsResultState
 import com.shuklansh.newsbreeze.presentation.utils.UiEvent
@@ -49,6 +50,62 @@ class NewsViewModel @Inject constructor(
     fun updateQuery(query : String) {
         _query.value = query
     }
+
+
+    fun onEvent(event : UserEvent){
+        when(event){
+            is UserEvent.BookmarkArticle -> {
+                viewModelScope.launch {
+                    addtheArticleToDb(
+                        article = event.article
+                    )
+                }
+            }
+            UserEvent.GetBookmarkArticlebyDate -> {
+                viewModelScope.launch {
+                    _bookmarkedArticles.update {
+
+                        it.copy(
+                            articles = db.dao().getAllArticlesByDate()
+                        )
+
+                    }
+                }
+
+
+            }
+            UserEvent.GetBookmarkArticlebyOrderSave -> {
+                viewModelScope.launch {
+                _bookmarkedArticles.update {
+
+                    it.copy(
+                        articles = db.dao().getAllArticles()
+                    )
+
+                }
+            }
+
+            }
+            is UserEvent.getNewsByCategory -> {
+                getNews(word = event.category)
+
+            }
+            is UserEvent.getNewsByQuery -> {
+                getNewsForQuery(query = event.query)
+
+            }
+            is UserEvent.removeBookmarkArticle -> {
+                viewModelScope.launch {
+                    removeFromDb(
+                        article = event.article
+                    )
+                }
+
+            }
+        }
+
+    }
+
 
 //    fun updateBookmarkValue(value : Boolean){
 //        _bookmarked.update {
@@ -97,15 +154,15 @@ class NewsViewModel @Inject constructor(
         Log.d("$%^","${db.dao().getAllArticles().size}")
     }
 
-    fun updateSortVal(){
-        if(sort.value==true){
-            _sort.value=false
-            Log.d("%%%",_sort.value.toString())
-        }else{
-            _sort.value=true
-            Log.d("%%%",_sort.value.toString())
-        }
-    }
+//    fun updateSortVal(){
+//        if(sort.value==true){
+//            _sort.value=false
+//            Log.d("%%%",_sort.value.toString())
+//        }else{
+//            _sort.value=true
+//            Log.d("%%%",_sort.value.toString())
+//        }
+//    }
 
     suspend fun isarticleindb(article : Article) : Boolean{
         return db.dao().isarticleintheDB(title = article.title!!)

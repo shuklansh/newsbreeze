@@ -34,6 +34,7 @@ import androidx.navigation.findNavController
 import coil.compose.AsyncImage
 import com.shuklansh.newsbreeze.R
 import com.shuklansh.newsbreeze.presentation.NewsViewModel
+import com.shuklansh.newsbreeze.presentation.user_events.UserEvent
 import com.shuklansh.newsbreeze.ui.theme.NewsBreezeTheme
 import com.shuklansh.newsbreeze.ui.theme.myAppBg
 import com.shuklansh.newsbreeze.ui.theme.myGray
@@ -65,11 +66,13 @@ class SavedScreen : Fragment() {
                 //var articlesList = remember{ mutableListOf(Article("","","","","","","",false)) }
                 var savedArticles = vm.bmlist.collectAsState().value.articles
                 LaunchedEffect(key1 = true ){
-                    vm.getAllArticlesFromDb()
+                    vm.onEvent(UserEvent.GetBookmarkArticlebyDate)
+//                    vm.getAllArticlesFromDb()
                     loaded = true
                 }
 
                 var scope = rememberCoroutineScope()
+                val onEventVM = vm::onEvent
 
                 NewsBreezeTheme {
                     Scaffold(Modifier.fillMaxSize(),
@@ -97,7 +100,8 @@ class SavedScreen : Fragment() {
                                             )
                                             Row(Modifier.weight(1f), horizontalArrangement = Arrangement.End) {
                                                 IconButton(onClick = {
-                                                    scope.launch { vm.getAllArticlesFromDbbydate() }
+                                                    onEventVM(UserEvent.GetBookmarkArticlebyDate)
+                                                    //scope.launch { vm.getAllArticlesFromDbbydate() }
                                                     sortvalbydate = true
                                                 }) {
                                                     Icon(
@@ -108,7 +112,8 @@ class SavedScreen : Fragment() {
                                                 }
                                                 Spacer(Modifier.height(12.dp))
                                                 IconButton(onClick = {
-                                                    scope.launch{ vm.getAllArticlesFromDb() }
+                                                    onEventVM(UserEvent.GetBookmarkArticlebyOrderSave)
+//                                                    scope.launch{ vm.getAllArticlesFromDb() }
                                                     sortvalbydate = false
                                                 }) {
                                                     Icon(
